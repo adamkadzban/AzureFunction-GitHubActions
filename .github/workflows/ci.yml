@@ -1,4 +1,4 @@
-name: Deploy DotNet project to Azure Function App
+name: Build DotNet App Function App project
 
 on:
   [pull_request]
@@ -15,7 +15,7 @@ env:
   DOTNET_VERSION: '3.1.x'              # set this to the dotnet version to use
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: windows-latest
     environment: dev
     steps:
