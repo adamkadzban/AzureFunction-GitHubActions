@@ -17,14 +17,15 @@ concurrency: ci-${{ github.workflow }}
 jobs:
   swap:
     runs-on: windows-latest
+    environment: dev
     steps:
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_FUNCTIONPP_AZURE_CREDENTIALS }}
+        creds: ${{ secrets.AZURE_FUNCTIONAPP_AZURE_CREDENTIALS }}
 
     - name: 'Swap slots via Azure CLI'
       shell: pwsh
       run: |
-        az functionapp deployment slot swap --slot ${{ github.event.inputs.source }} --target-slot ${{ github.event.inputs.target }}
+        az functionapp deployment slot swap --resource-group AzureFunction1 --name AzureFunction-GitHubActions --slot ${{ github.event.inputs.source }} --target-slot ${{ github.event.inputs.target }}
 
