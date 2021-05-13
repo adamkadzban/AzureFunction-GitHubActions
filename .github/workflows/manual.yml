@@ -1,0 +1,30 @@
+name: Manually swap slots
+
+on:
+  workflow_dispatch:
+    inputs:
+      source:
+        description: 'Source branch to swap from'
+        required: true
+        default: 'stage'
+      target:
+        description: 'Target branch to swap to'
+        required: true
+        default: 'production'
+
+concurrency: ci-${{ github.workflow }}
+
+jobs:
+  swap:
+    runs-on: windows-latest
+    steps:
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_FUNCTIONPP_AZURE_CREDENTIALS }}
+
+    - name: 'Swap slots via Azure CLI'
+      shell: pwsh
+      run: |
+        az functionapp deployment slot swap --slot ${{ github.event.inputs.source }} --target-slot ${{ github.event.inputs.target }}
+
