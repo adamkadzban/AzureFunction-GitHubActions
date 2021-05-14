@@ -4,24 +4,17 @@ on:
   push:
     branches: [main]
 
-# CONFIGURATION
-# For help, go to https://github.com/Azure/Actions
-#
-# 1. Set up the following secrets in your repository:
-#   AZURE_FUNCTIONAPP_PUBLISH_PROFILE
-#
-# 2. Change these variables for your configuration:
 env:
-  AZURE_FUNCTIONAPP_NAME: AzureFunction-GitHubActions  # set this to your application's name
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'AzureFunction1'    # set this to the path to your web app project, defaults to the repository root
-  DOTNET_VERSION: '3.1.x'              # set this to the dotnet version to use
+  AZURE_FUNCTIONAPP_NAME: AzureFunction-GitHubActions
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'AzureFunction1'
+  DOTNET_VERSION: '3.1.x'
 
 concurrency: ci-${{ github.ref }}
 
 jobs:
   build-and-deploy:
     runs-on: windows-latest
-    environment: dev
+    environment: stage
     steps:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@master
@@ -50,6 +43,3 @@ jobs:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
         package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
         slot-name: 'stage'
-
-
-# For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
