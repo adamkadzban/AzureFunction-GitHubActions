@@ -17,7 +17,7 @@ concurrency: ci-${{ github.workflow }}
 jobs:
   swap:
     runs-on: windows-latest
-    environment: dev
+    environment: ${{ github.event.inputs.target }}
     steps:
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
@@ -28,4 +28,3 @@ jobs:
       shell: pwsh
       run: |
         az functionapp deployment slot swap --resource-group AzureFunction1 --name AzureFunction-GitHubActions --slot ${{ github.event.inputs.source }} --target-slot ${{ github.event.inputs.target }}
-
